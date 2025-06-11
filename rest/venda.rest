@@ -1,0 +1,92 @@
+### Cadastrar uma nova venda
+POST http://localhost:8080/venda/cadastro
+Content-Type: application/json
+
+{
+  "id": 1,
+  "cadastro": "2025-01-01",
+  "identificacao": "1234567890",
+  "cliente": {
+    "id": 2,
+    "nome": "JOao sailva"
+  },
+  "funcionario": {
+    "id": 1,
+    "nome": "JOao sailva"
+  },
+  "mercadorias": [
+    {
+      "id": 1,
+      "cadastro": "2025-01-01",
+      "fabricao": "2025-01-01",
+      "nome": "Óleo de motor",
+      "validade": "2025-01-01"
+
+    }
+  ],
+  "servicos": [
+    {
+      "id": 1,
+      "nome": "Troca de óleo"
+
+    }
+  ]
+}
+
+### Obter todas as vendas
+GET http://localhost:8080/venda/listar
+
+### Obter uma venda específica
+GET http://localhost:8080/venda/1
+
+### Atualizar uma venda
+PUT http://localhost:8080/venda/atualizar/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "cadastro": "2025-01-01",
+  "identificacao": "3334567890",
+  "cliente": {
+    "id": 1
+  },
+  "funcionario": {
+    "id": 1
+  },
+  "mercadorias": [
+    {
+      "id": 1
+    }
+  ],
+  "servicos": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+### Excluir uma venda
+DELETE http://localhost:8080/venda/excluir
+Content-Type: application/json
+
+{
+  "id": 1,
+  "cadastro": "2025-01-01",
+  "identificacao": "1234567890",
+  "cliente": {
+    "id": 1
+  },
+  "funcionario": {
+    "id": 1
+  },
+  "mercadorias": [
+    {
+      "id": 1
+    }
+  ],
+  "servicos": [
+    {
+      "id": 1
+    }
+  ]
+}
