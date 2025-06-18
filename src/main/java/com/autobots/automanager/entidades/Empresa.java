@@ -51,7 +51,7 @@ public class Empresa extends RepresentationModel<Empresa> {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate cadastro;
 
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private Set<Usuario> usuarios = new HashSet<>();
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

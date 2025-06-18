@@ -36,11 +36,6 @@ public class AdicionarLinkUsuarioServico implements AdicionarLinkServico<Usuario
 						.methodOn(UsuarioController.class)
 						.listarUsuarios())
 				.withRel("obter-todos");
-		Link linkCadastrar = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(UsuarioController.class)
-						.criarUsuario(null))
-				.withRel("cadastrar");
 		Link linkExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(UsuarioController.class)
@@ -52,7 +47,6 @@ public class AdicionarLinkUsuarioServico implements AdicionarLinkServico<Usuario
 		// 	adicionaLinkEnderecoServico.adicionarLink(cliente.getEndereco());
 		// }
 		cliente.add(linkProprio);
-		cliente.add(linkCadastrar);
 		cliente.add(linkExcluir);
 	}
 }

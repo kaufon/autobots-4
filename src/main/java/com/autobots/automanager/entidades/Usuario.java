@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -60,11 +61,16 @@ public class Usuario extends RepresentationModel<Usuario> {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate ultimoAcesso = LocalDate.now();
 
-  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+  @ManyToOne
+  @JoinColumn(name = "empresa_id")
+  @JsonIgnore
+  private Empresa empresa;
+
+  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "cliente_id")
   private Set<Documento> documentos = new HashSet<>();
 
-  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "cliente_id")
   private Set<Telefone> telefones = new HashSet<>();
 
@@ -73,7 +79,6 @@ public class Usuario extends RepresentationModel<Usuario> {
   private Set<Email> emails = new HashSet<>();
 
   @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JsonIgnore
   private Credencial credencial;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })

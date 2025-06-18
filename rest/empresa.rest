@@ -27,6 +27,7 @@ Content-Type: application/json
 
 ### Obter todos os documentos
 GET http://localhost:8080/empresa/listar
+Authorization: Bearer {{JWT}}
 
 ### Obter um documento específico
 GET http://localhost:8080/empresa/1

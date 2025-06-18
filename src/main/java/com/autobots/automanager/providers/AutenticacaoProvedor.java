@@ -64,10 +64,6 @@ public class AutenticacaoProvedor {
   public Empresa getEmpresa() {
     var usuario = getUsuario();
 
-    var empresa = empresaRepository.findByUsuariosId(usuario.getId());
-    if (empresa.isEmpty()) {
-      throw new AutenticacaoException("Empresa não encontrada para o usuário autenticado");
-    }
-    return empresa.get();
+    return usuario.getEmpresa();
   }
 }

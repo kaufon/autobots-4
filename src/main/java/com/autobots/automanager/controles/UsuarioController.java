@@ -1,6 +1,9 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Usuario;
+import com.autobots.automanager.providers.AutenticacaoProvedor;
+import com.autobots.automanager.repositorios.EmpresaRepository;
 import com.autobots.automanager.repositorios.UsuarioRepository;
 import com.autobots.automanager.servicos.AdicionarLinkUsuarioServico;
 import com.autobots.automanager.servicos.AtualizaUsuarioServico;
@@ -17,12 +20,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
   @Autowired
   private UsuarioRepository usuarioRepository;
+
+  @Autowired
+  private EmpresaRepository empresaRepository;
+
+  @Autowired
+  private AutenticacaoProvedor autenticacaoProvedor;
 
   @Autowired
   private AdicionarLinkUsuarioServico adicionarLink;
@@ -39,7 +50,7 @@ public class UsuarioController {
   @GetMapping("/listar")
   @PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
   public ResponseEntity<List<Usuario>> listarUsuarios() {
-    var usuarios = obterUsuariosServicos.obterUsuarios();
+    var usuarios = usuarioRepository.findAll();
     adicionarLink.adicionarLink(new HashSet<>(usuarios));
     var listaUsuarios = new ArrayList<>(usuarios);
     return ResponseEntity.ok(listaUsuarios);
@@ -59,10 +70,15 @@ public class UsuarioController {
       (hasRole('VENDEDOR') and #usuario.perfil.name() == 'CLIENTE')
       """)
   @PostMapping("/cadastro")
+  @Transactional
   public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-    Usuario novoUsuario = usuarioRepository.save(usuario);
-    adicionarLink.adicionarLink(novoUsuario);
-    return ResponseEntity.ok(novoUsuario);
+    var empresa = autenticacaoProvedor.getEmpresa();
+    usuario.setEmpresa(empresa);
+    autenticacaoProvedor.registrar(usuario);
+    usuarioRepository.save(usuario);
+    empresa.getUsuarios().add(usuario);
+    empresaRepository.save(empresa);
+    return ResponseEntity.ok(usuario);
   }
 
   @PreAuthorize("""

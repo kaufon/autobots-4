@@ -15,7 +15,9 @@ public class ObterUsuariosServicos {
 
   public Set<Usuario> obterUsuarios() {
     var empresa = autenticacaoProvedor.getEmpresa();
+    System.out.println("empresa" + empresa.getId());
     var usuarios = empresa.obterUsuariosPorPerfil(autenticacaoProvedor.getPerfil());
+    System.out.println("usuarioas emrepsa" + empresa.getUsuarios());
     if (usuarios.isEmpty()) {
       throw new RuntimeException("Nenhum usuario cadastrado");
     }

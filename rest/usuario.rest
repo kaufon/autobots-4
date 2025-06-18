@@ -16,19 +16,17 @@ Authorization: Bearer {{JWT}}
 {
   "nome": "João da Silva",
   "nomeSocial": "João da Silva",
-  "empresa": {
-    "razaoSocial": "Empresa 1",
-    "cadastro": "2025-01-01"
-
-  },
   "perfil": "CLIENTE",
-  "dataNascimento": "1990-01-01",
-  "dataCadastro": "2000-01-01",
+  "credencial":{ 
+    "nomeUsuario": "cliente-usuario-1",
+    "senha": "123456",
+    "criacao": "2025-01-01"
+  },
   "documentos": [
     {
       "tipo": "CPF",
       "dataEmissao": "2020-01-01",
-      "numero": "0124567891"
+      "numero": "3124567891"
     }
   ],
   "endereco": {
@@ -46,11 +44,6 @@ Authorization: Bearer {{JWT}}
       "numero": "99999-9999"
     }
   ],
-  "credencial":{ 
-    "nomeUsuario": "cliente-usuario-1",
-    "senha": "123456",
-    "criacao": "2025-01-01"
-  },
   "inativo": false
 }
 

@@ -39,6 +39,8 @@ public class DadosMock implements CommandLineRunner {
     inserirEmpresa(admin);
   }
 
+  public Empresa empresa = new Empresa();
+
   private Usuario inserirUsuario() {
     var usuario = new Usuario();
     var credencial = new Credencial();
@@ -69,6 +71,7 @@ public class DadosMock implements CommandLineRunner {
 
     usuario.setCredencial(credencial);
     usuario.setNome("Admin");
+    usuario.setEmpresa(empresa);
     usuario.setNomeSocial("Admin");
     usuario.setEmails(Set.of(email));
     usuario.setTelefones(Set.of(telefone));
@@ -83,7 +86,6 @@ public class DadosMock implements CommandLineRunner {
   }
 
   private void inserirEmpresa(Usuario admin) {
-    var empresa = new Empresa();
     var endereco = new Endereco();
     var telefone = new Telefone();
 
