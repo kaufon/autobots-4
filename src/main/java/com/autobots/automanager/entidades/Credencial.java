@@ -1,7 +1,5 @@
 package com.autobots.automanager.entidades;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,14 +13,14 @@ import lombok.Data;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Credencial {
-	@Id()
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Column(nullable = false)
-	private Date criacao;
-	@Column()
-	private Date ultimoAcesso;
-	@Column(nullable = false)
-	private boolean inativo;
+public class Credencial {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false, unique = true)
+  private String nomeUsuario;
+
+  @Column(nullable = false)
+  private String senha;
 }

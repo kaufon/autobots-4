@@ -13,14 +13,14 @@ import com.autobots.automanager.entidades.Usuario;
 
 @Service
 public class AdicionarLinkUsuarioServico implements AdicionarLinkServico<Usuario> {
-	@Autowired
-	private AdicionaLinkDocumentoServico adicionaLinkDocumentoServico;
-
-	@Autowired
-	private AdicionarLinkTelefoneServico adicionaLinkTelefoneServico;
-
-	@Autowired
-	private AdicionarLinkEnderecoServico adicionaLinkEnderecoServico;
+	// @Autowired
+	// private AdicionaLinkDocumentoServico adicionaLinkDocumentoServico;
+	//
+	// @Autowired
+	// private AdicionarLinkTelefoneServico adicionaLinkTelefoneServico;
+	//
+	// @Autowired
+	// private AdicionarLinkEnderecoServico adicionaLinkEnderecoServico;
 
 	@Override
 	public void adicionarLink(Set<Usuario> clientes) {
@@ -46,11 +46,11 @@ public class AdicionarLinkUsuarioServico implements AdicionarLinkServico<Usuario
 						.methodOn(UsuarioController.class)
 						.deletarUsuario(null))
 				.withRel("excluir");
-		adicionaLinkDocumentoServico.adicionarLink(cliente.getDocumentos());
-		adicionaLinkTelefoneServico.adicionarLink(cliente.getTelefones());
-		if (cliente.getEndereco() != null) {
-			adicionaLinkEnderecoServico.adicionarLink(cliente.getEndereco());
-		}
+		// adicionaLinkDocumentoServico.adicionarLink(cliente.getDocumentos());
+		// adicionaLinkTelefoneServico.adicionarLink(cliente.getTelefones());
+		// if (cliente.getEndereco() != null) {
+		// 	adicionaLinkEnderecoServico.adicionarLink(cliente.getEndereco());
+		// }
 		cliente.add(linkProprio);
 		cliente.add(linkCadastrar);
 		cliente.add(linkExcluir);

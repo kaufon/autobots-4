@@ -6,6 +6,7 @@ import com.autobots.automanager.servicos.AdicionarLinkServicoServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -22,6 +23,7 @@ public class ServicoController {
   @Autowired
   private AdicionarLinkServicoServico adicionarLink;
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
   @PostMapping("/cadastro")
   public ResponseEntity<Servico> criarServico(@RequestBody Servico servico) {
     Servico novoServico = servicoRepository.save(servico);
@@ -29,6 +31,7 @@ public class ServicoController {
     return ResponseEntity.ok(novoServico);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
   @GetMapping("/listar")
   public ResponseEntity<List<Servico>> listarServicos() {
     List<Servico> servicos = servicoRepository.findAll();
@@ -39,6 +42,7 @@ public class ServicoController {
     return ResponseEntity.ok(servicos);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
   @GetMapping("/{id}")
   public ResponseEntity<Servico> obterServico(@PathVariable Long id) {
     Optional<Servico> servico = servicoRepository.findById(id);
@@ -49,6 +53,7 @@ public class ServicoController {
     return ResponseEntity.ok(servico.get());
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
   @PutMapping("/atualizar/{id}")
   public ResponseEntity<Servico> atualizarServico(@PathVariable Long id, @RequestBody Servico dadosAtualizados) {
     Optional<Servico> servicoOptional = servicoRepository.findById(id);
@@ -66,6 +71,7 @@ public class ServicoController {
     return ResponseEntity.ok(atualizado);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
   @DeleteMapping("/deletar/{id}")
   public ResponseEntity<Void> deletarServico(@PathVariable Long id) {
     Optional<Servico> servico = servicoRepository.findById(id);

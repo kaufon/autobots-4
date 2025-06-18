@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,16 +33,14 @@ public class EmpresaController {
   @Autowired
   private AtualizaEmpresaServico atualizaEmpresaServico;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/empresa/cadastrar")
   public ResponseEntity<?> cadastrarEmpresa(@RequestBody Empresa empresa) {
-    // Optional<Empresa> empresaExistente = repositorio.findById(empresa.getId());
-    // if (empresaExistente.isPresent()) {
-    // return new ResponseEntity<>(HttpStatus.CONFLICT);
-    // }
     repositorio.save(empresa);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/empresa/listar")
   public ResponseEntity<List<Empresa>> obterEmpresas() {
     List<Empresa> empresas = repositorio.findAll();
@@ -55,6 +54,7 @@ public class EmpresaController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/empresa/{id}")
   public ResponseEntity<Empresa> obterEmpresa(@PathVariable long id) {
     Optional<Empresa> cliente = repositorio.findById(id);
@@ -67,6 +67,7 @@ public class EmpresaController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/empresa/atualizar")
   public ResponseEntity<?> atualizarEmpresa(@RequestBody Empresa empresaAtualizado) {
     Optional<Empresa> empresa = repositorio.findById(empresaAtualizado.getId());
@@ -78,6 +79,7 @@ public class EmpresaController {
     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/empresa/excluir")
   public ResponseEntity<?> excluirEmpresa(@RequestBody Empresa exclusao) {
     HttpStatus status = HttpStatus.NOT_FOUND;

@@ -8,26 +8,28 @@ Content-Type: application/json
   "identificacao": "1234567890",
   "cliente": {
     "id": 2,
-    "nome": "JOao sailva"
+    "nome": "João da Silva",
+    "inativo": false
   },
   "funcionario": {
-    "id": 1,
-    "nome": "JOao sailva"
+    "id": 3,
+    "nome": "João da Silva",
+    "inativo": false
   },
   "mercadorias": [
     {
       "id": 1,
-      "cadastro": "2025-01-01",
-      "fabricao": "2025-01-01",
-      "nome": "Óleo de motor",
-      "validade": "2025-01-01"
+        "validade": "2025-01-01",
+  "fabricao": "2025-01-01",
+  "cadastro": "2025-01-01",
+  "nome": "banana"
 
     }
   ],
   "servicos": [
     {
       "id": 1,
-      "nome": "Troca de óleo"
+        "nome": "banana"
 
     }
   ]

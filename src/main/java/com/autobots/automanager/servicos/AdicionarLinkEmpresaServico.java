@@ -1,6 +1,5 @@
 package com.autobots.automanager.servicos;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.hateoas.Link;

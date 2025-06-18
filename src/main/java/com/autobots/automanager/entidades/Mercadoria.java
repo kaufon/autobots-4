@@ -1,15 +1,12 @@
 package com.autobots.automanager.entidades;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -39,7 +36,4 @@ public class Mercadoria extends RepresentationModel<Mercadoria> {
 	private double valor;
 	@Column()
 	private String descricao;
-  @ManyToOne
-  @JoinColumn(name = "venda_id")
-  private Venda venda;
 }

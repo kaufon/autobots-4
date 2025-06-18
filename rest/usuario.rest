@@ -1,30 +1,37 @@
-### Create client
-POST http://localhost:8080/usuario/cadastro
+# @name login 
+POST http://localhost:8080/autenticacao/login
 Content-Type: application/json
 
 {
-  "id": 2,
+  "nomeUsuario": "admin-usuario",
+  "senha": "123456"
+}
+
+
+### Create client
+POST http://localhost:8080/usuario/cadastro
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
   "nome": "João da Silva",
   "nomeSocial": "João da Silva",
   "empresa": {
-    "id": 1,
     "razaoSocial": "Empresa 1",
     "cadastro": "2025-01-01"
 
   },
-  "perfil": "FUNCIONARIO",
+  "perfil": "CLIENTE",
   "dataNascimento": "1990-01-01",
   "dataCadastro": "2000-01-01",
   "documentos": [
     {
-      "id": 2,
       "tipo": "CPF",
       "dataEmissao": "2020-01-01",
-      "numero": "0124567890"
+      "numero": "0124567891"
     }
   ],
   "endereco": {
-    "id": 2,
     "estado": "SP",
     "cidade": "São Paulo",
     "bairro": "Jardim Paulista",
@@ -35,22 +42,25 @@ Content-Type: application/json
   },
   "telefones": [
     {
-      "id": 2,
       "ddd": "11",
       "numero": "99999-9999"
     }
   ],
-  "credencialCodigoBarra":{ 
-    "codigo": 1,
-    "criacao":"2020-01-01"
-  }
+  "credencial":{ 
+    "nomeUsuario": "cliente-usuario-1",
+    "senha": "123456",
+    "criacao": "2025-01-01"
+  },
+  "inativo": false
 }
 
 ### Obter todos os clientes
 GET http://localhost:8080/usuario/listar
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
 ### Get user
-GET http://localhost:8080/usuario/1
+GET http://localhost:8080/usuario/2
 
 ### Update user
 PUT http://localhost:8080/usuario/atualizar/1

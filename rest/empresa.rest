@@ -21,7 +21,6 @@ Content-Type: application/json
     {
       "id": 1,
       "numero": "1234567898",
-      "ddd": "11"
     }
   ]
 }

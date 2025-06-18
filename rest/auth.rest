@@ -1,0 +1,25 @@
+### Login como admin
+POST http://localhost:8080/autenticacao/login
+Content-Type: application/json
+
+{
+ "nomeUsuario": "admin-usuario",
+  "senha": "123456"
+}
+### Login como cliente
+POST http://localhost:8080/autenticacao/login
+Content-Type: application/json
+
+{
+  "nomeUsuario": "cliente-usuario",
+  "senha": "123456"
+}
+
+### Login como vendedor
+POST http://localhost:8080/autenticacao/login
+Content-Type: application/json
+
+{
+  "nomeUsuario": "vendedor-usuario",
+  "senha": "123456"
+}

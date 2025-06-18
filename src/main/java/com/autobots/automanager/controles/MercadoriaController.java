@@ -7,6 +7,7 @@ import com.autobots.automanager.servicos.AtualizaMercadoriaServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class MercadoriaController {
   @Autowired
   private AtualizaMercadoriaServico atualizaMercadoriaServico;
 
+  @PreAuthorize("hasRole('ADMIN','GERENTE','VENDEDOR')")
   @GetMapping("/listar")
   public ResponseEntity<List<Mercadoria>> listarMercadorias() {
     List<Mercadoria> mercadorias = mercadoriaRepository.findAll();
@@ -36,6 +38,7 @@ public class MercadoriaController {
     return ResponseEntity.ok(mercadorias);
   }
 
+  @PreAuthorize("hasRole('ADMIN','GERENTE','VENDEDOR')")
   @GetMapping("/{id}")
   public ResponseEntity<Mercadoria> obterMercadoria(@PathVariable Long id) {
     Optional<Mercadoria> mercadoria = mercadoriaRepository.findById(id);
@@ -46,6 +49,7 @@ public class MercadoriaController {
     return ResponseEntity.ok(mercadoria.get());
   }
 
+  @PreAuthorize("hasRole('ADMIN','GERENTE')")
   @PostMapping("/cadastro")
   public ResponseEntity<Mercadoria> criar(@RequestBody Mercadoria mercadoria) {
     Mercadoria nova = mercadoriaRepository.save(mercadoria);
@@ -53,6 +57,7 @@ public class MercadoriaController {
     return ResponseEntity.ok(nova);
   }
 
+  @PreAuthorize("hasRole('ADMIN','GERENTE')")
   @PutMapping("/atualizar/{id}")
   public ResponseEntity<Mercadoria> atualizar(@PathVariable Long id, @RequestBody Mercadoria novaMercadoria) {
     Optional<Mercadoria> mercadoriaOptional = mercadoriaRepository.findById(id);
@@ -69,6 +74,7 @@ public class MercadoriaController {
     return ResponseEntity.ok(atualizada);
   }
 
+  @PreAuthorize("hasRole('ADMIN','GERENTE')")
   @DeleteMapping("/deletar/{id}")
   public ResponseEntity<Void> deletar(@PathVariable Long id) {
     Optional<Mercadoria> mercadoria = mercadoriaRepository.findById(id);
