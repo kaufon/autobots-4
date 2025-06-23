@@ -5,6 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import com.autobots.automanager.entidades.Venda;
+import com.autobots.automanager.providers.AutenticacaoProvedor;
+import com.autobots.automanager.repositorios.EmpresaRepository;
+import com.autobots.automanager.repositorios.VendaRepository;
+import com.autobots.automanager.servicos.AdicionarLinkVendaServico;
+import com.autobots.automanager.servicos.AtualizaVendaServico;
+import com.autobots.automanager.servicos.ObterVendaServico;
+import com.autobots.automanager.servicos.ObterVendasServico;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,14 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.autobots.automanager.entidades.Venda;
-import com.autobots.automanager.repositorios.VendaRepository;
-import com.autobots.automanager.servicos.AdicionarLinkVendaServico;
-import com.autobots.automanager.servicos.AtualizaVendaServico;
-import com.autobots.automanager.servicos.ObterUsuariosServicos;
-import com.autobots.automanager.servicos.ObterVendaServico;
-import com.autobots.automanager.servicos.ObterVendasServico;
 
 @RestController
 @RequestMapping("/venda")
@@ -44,6 +45,12 @@ public class VendaController {
   @Autowired
   private ObterVendasServico obterVendasServico;
 
+  @Autowired
+  private AutenticacaoProvedor autenticacaoProvedor;
+
+  @Autowired
+  private EmpresaRepository empresaRepository;
+
   @GetMapping("/listar")
   public ResponseEntity<List<Venda>> listarVendas() {
     var vendas = obterVendasServico.obterVendas();
@@ -59,8 +66,11 @@ public class VendaController {
       """)
   @PostMapping("/cadastro")
   public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-    Venda novaVenda = vendaRepository.save(venda);
-    return ResponseEntity.ok(novaVenda);
+    var empresa = autenticacaoProvedor.getEmpresa();
+    empresa.getVendas().add(venda);
+    empresaRepository.save(empresa);
+    vendaRepository.save(venda);
+    return ResponseEntity.ok(venda);
   }
 
   @GetMapping("/{id}")

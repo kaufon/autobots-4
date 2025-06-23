@@ -2,10 +2,15 @@ package com.autobots.automanager.filtro;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import com.autobots.automanager.entidades.Usuario;
+import com.autobots.automanager.providers.JwtProvedor;
+import com.autobots.automanager.repositorios.UsuarioRepository;
+import com.autobots.automanager.seguranca.SegurancaUsuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,11 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.autobots.automanager.entidades.Usuario;
-import com.autobots.automanager.providers.JwtProvedor;
-import com.autobots.automanager.repositorios.UsuarioRepository;
-import com.autobots.automanager.seguranca.SegurancaUsuario;
 
 @Component
 public class JwtFiltro extends OncePerRequestFilter {

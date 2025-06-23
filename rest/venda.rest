@@ -1,6 +1,7 @@
 ### Cadastrar uma nova venda
 POST http://localhost:8080/venda/cadastro
 Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
 {
   "id": 1,
@@ -12,7 +13,7 @@ Content-Type: application/json
     "inativo": false
   },
   "funcionario": {
-    "id": 3,
+    "id": 1,
     "nome": "João da Silva",
     "inativo": false
   },
@@ -37,6 +38,7 @@ Content-Type: application/json
 
 ### Obter todas as vendas
 GET http://localhost:8080/venda/listar
+Authorization: Bearer {{JWT}}
 
 ### Obter uma venda específica
 GET http://localhost:8080/venda/1

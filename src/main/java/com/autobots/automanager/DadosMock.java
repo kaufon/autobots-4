@@ -2,12 +2,7 @@ package com.autobots.automanager;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import com.autobots.automanager.entidades.Credencial;
 import com.autobots.automanager.entidades.Documento;
@@ -21,6 +16,10 @@ import com.autobots.automanager.enumeracoes.TipoDocumento;
 import com.autobots.automanager.providers.AutenticacaoProvedor;
 import com.autobots.automanager.repositorios.EmpresaRepository;
 import com.autobots.automanager.repositorios.UsuarioRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DadosMock implements CommandLineRunner {
