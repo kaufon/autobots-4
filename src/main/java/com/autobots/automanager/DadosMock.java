@@ -45,29 +45,29 @@ public class DadosMock implements CommandLineRunner {
     var documento = new Documento();
     var endereco = new Endereco();
 
-    credencial.setNomeUsuario("admin-usuario");
-    credencial.setSenha("123456");
+    credencial.setNomeUsuario("gerente-usuario");
+    credencial.setSenha("gerente2025");
 
     documento.setTipo(TipoDocumento.CPF);
-    documento.setNumero("1234567890");
+    documento.setNumero("9876543210");
     documento.setDataEmissao(new Date());
 
-    email.setEndereco("admin@autobots.com");
+    email.setEndereco("gerente@realisticmail.com");
 
-    endereco.setBairro("Bairro Exemplo");
-    endereco.setCidade("Cidade Exemplo");
-    endereco.setEstado("SP");
-    endereco.setRua("Rua Exemplo");
-    endereco.setNumero("123");
-    endereco.setCodigoPostal("1234567890");
-    endereco.setInformacoesAdicionais("Apto 123");
+    endereco.setBairro("Central Park");
+    endereco.setCidade("New York" );
+    endereco.setEstado("NY");
+    endereco.setRua("5th Avenue");
+    endereco.setNumero("101");
+    endereco.setCodigoPostal("10001");
+    endereco.setInformacoesAdicionais("Suite 500");
 
-    telefone.setDdd("11");
-    telefone.setNumero("999999999");
+    telefone.setDdd("212");
+    telefone.setNumero("5551234567");
 
     usuario.setCredencial(credencial);
-    usuario.setNome("Admin");
-    usuario.setNomeSocial("Admin");
+    usuario.setNome("John Doe");
+    usuario.setNomeSocial("Johnny");
     usuario.setEmails(List.of(email));
     usuario.setTelefones(List.of(telefone));
     usuario.setDocumentos(List.of(documento));
@@ -84,20 +84,20 @@ public class DadosMock implements CommandLineRunner {
     var endereco = new Endereco();
     var telefone = new Telefone();
 
-    endereco.setEstado("Aichi");
-    endereco.setCidade("Toyota City");
-    endereco.setBairro("Toyota District");
-    endereco.setRua("Toyota Street");
-    endereco.setNumero("1");
-    endereco.setCodigoPostal("471-8571");
-    endereco.setInformacoesAdicionais("Apto 101");
+    endereco.setEstado("California");
+    endereco.setCidade("San Francisco");
+    endereco.setBairro("Financial District");
+    endereco.setRua("Market Street");
+    endereco.setNumero("100");
+    endereco.setCodigoPostal("94105");
+    endereco.setInformacoesAdicionais("Office 200");
 
-    telefone.setDdd("11");
-    telefone.setNumero("123654987");
+    telefone.setDdd("415");
+    telefone.setNumero("5559876543");
 
-    empresa.setRazaoSocial("Toyota Motor Corporation");
-    empresa.setNomeFantasia("Toyota");
-    empresa.setCadastro(LocalDate.of(2025, 1, 1));
+    empresa.setRazaoSocial("San Francisco Tech Inc.");
+    empresa.setNomeFantasia("SF Tech");
+    empresa.setCadastro(LocalDate.of(2023, 6, 1));
     empresa.setEndereco(endereco);
     empresa.setTelefones(List.of(telefone));
     empresa.setUsuarios(List.of(admin));
