@@ -2,7 +2,7 @@
 
 ## Pré-requisitos
 Certifique-se de que você tenha as seguintes ferramentas instaladas no sistema:
-- [Java JDK 17+](https://www.oracle.com/java/technologies/javase-downloads.html)
+- [Java JDK 21+](https://www.oracle.com/java/technologies/javase-downloads.html)
 - [Apache Maven](https://maven.apache.org/download.cgi)
 - [Git](https://git-scm.com/downloads)
 
