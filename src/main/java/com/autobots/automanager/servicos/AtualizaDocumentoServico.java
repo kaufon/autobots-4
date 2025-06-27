@@ -1,11 +1,11 @@
 package com.autobots.automanager.servicos;
 
-import java.util.Set;
+import java.util.List;
+
+import com.autobots.automanager.entidades.Documento;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.autobots.automanager.entidades.Documento;
 
 @Service
 public class AtualizaDocumentoServico {
@@ -23,7 +23,7 @@ public class AtualizaDocumentoServico {
     }
   }
 
-  public void atualizar(Set<Documento> documentos, Set<Documento> atualizacoes) {
+  public void atualizar(List<Documento> documentos, List<Documento> atualizacoes) {
     for (Documento atualizacao : atualizacoes) {
       for (Documento documento : documentos) {
         if (atualizacao.getId() != null) {

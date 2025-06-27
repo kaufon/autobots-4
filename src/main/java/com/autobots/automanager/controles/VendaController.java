@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autobots.automanager.entidades.Venda;
-import com.autobots.automanager.providers.AutenticacaoProvedor;
 import com.autobots.automanager.repositorios.EmpresaRepository;
 import com.autobots.automanager.repositorios.VendaRepository;
 import com.autobots.automanager.servicos.AdicionarLinkVendaServico;
 import com.autobots.automanager.servicos.AtualizaVendaServico;
 import com.autobots.automanager.servicos.ObterVendaServico;
+import org.springframework.http.HttpStatus;
 import com.autobots.automanager.servicos.ObterVendasServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +45,13 @@ public class VendaController {
   @Autowired
   private ObterVendasServico obterVendasServico;
 
-  @Autowired
-  private AutenticacaoProvedor autenticacaoProvedor;
 
   @Autowired
   private EmpresaRepository empresaRepository;
 
-  @GetMapping("/listar")
-  public ResponseEntity<List<Venda>> listarVendas() {
-    var vendas = obterVendasServico.obterVendas();
+  @GetMapping("{empresaID}/listar")
+  public ResponseEntity<List<Venda>> listarVendas(@PathVariable("empresaID") Long empresaID) {
+    var vendas = obterVendasServico.obterVendas(empresaID);
     adicionarLink.adicionarLink(new HashSet<>(vendas));
     var lista = new ArrayList<>(vendas);
     return ResponseEntity.ok(lista);
@@ -64,12 +62,16 @@ public class VendaController {
       hasRole('GERENTE') or
       (hasRole('VENDEDOR') and #venda.vendedor.id == authentication.principal.usuario.id)
       """)
-  @PostMapping("/cadastro")
-  public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-    var empresa = autenticacaoProvedor.getEmpresa();
+  @PostMapping("{empresaID}/cadastro")
+    public ResponseEntity<?> criar(@RequestBody Venda venda,@PathVariable("empresaID") Long empresaID) {
+      if (vendaRepository.existsByIdentificacao(venda.getIdentificacao())) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Venda com identificacao já existe!");
+      }
+    var empresa = empresaRepository.findById(empresaID).get();
+    venda.setEmpresa(empresa);
+    vendaRepository.save(venda);
     empresa.getVendas().add(venda);
     empresaRepository.save(empresa);
-    vendaRepository.save(venda);
     return ResponseEntity.ok(venda);
   }
 
@@ -80,13 +82,17 @@ public class VendaController {
     return ResponseEntity.ok(venda);
   }
 
-  @PutMapping("/atualizar/{id}")
+  @PutMapping("/{empresaID}/atualizar/{id}")
   @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
-  public ResponseEntity<Venda> atualizar(@PathVariable Long id, @RequestBody Venda novaVenda) {
+    public ResponseEntity<Venda> atualizar(@PathVariable Long empresaID, @PathVariable Long id, @RequestBody Venda novaVenda) {
     return vendaRepository.findById(id)
         .map(venda -> {
+            var empresa = empresaRepository.findById(empresaID).get();
           atualizaVendaServico.atualizar(venda, novaVenda);
           Venda vendaAtualizada = vendaRepository.save(venda);
+            empresa.getVendas().remove(venda);
+            empresa.getVendas().add(vendaAtualizada);
+            empresaRepository.save(empresa);
           adicionarLink.adicionarLink(vendaAtualizada);
           return ResponseEntity.ok(vendaAtualizada);
         })
@@ -94,13 +100,17 @@ public class VendaController {
   }
 
   @PreAuthorize("hasRole('ADMIN') or hasRole('GERENTE')")
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletar(@PathVariable Long id) {
+    @DeleteMapping("/{empresaID}/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long empresaID, @PathVariable Long id) {
     Optional<Venda> vendaOptional = vendaRepository.findById(id);
     if (vendaOptional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
-    vendaRepository.delete(vendaOptional.get());
+      var empresa = empresaRepository.findById(empresaID).get();
+      Venda venda = vendaOptional.get();
+      vendaRepository.delete(venda);
+      empresa.getVendas().remove(venda);
+      empresaRepository.save(empresa);
     return ResponseEntity.noContent().build();
   }
 }

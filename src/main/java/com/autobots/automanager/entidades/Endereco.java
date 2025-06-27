@@ -11,12 +11,14 @@ import org.springframework.hateoas.RepresentationModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Endereco extends RepresentationModel<Endereco> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

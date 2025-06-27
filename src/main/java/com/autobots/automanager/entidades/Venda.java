@@ -1,8 +1,8 @@
 package com.autobots.automanager.entidades;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,10 +26,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(exclude = { "cliente", "funcionario", "veiculo" })
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = { "cliente", "vendedor", "veiculo" }, callSuper = false)
 public class Venda extends RepresentationModel<Venda> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,16 +43,17 @@ public class Venda extends RepresentationModel<Venda> {
   @Column(nullable = false, unique = true)
   private String identificacao;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }) private Usuario cliente;
+  @ManyToOne(fetch = FetchType.EAGER)
+  private Usuario cliente;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+  @ManyToOne(fetch = FetchType.EAGER)
   private Usuario vendedor;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-  private Set<Mercadoria> mercadorias = new HashSet<>();
+  @ManyToMany(fetch = FetchType.EAGER )
+  private List<Mercadoria> mercadorias = new ArrayList<>();
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-  private Set<Servico> servicos = new HashSet<>();
+  @ManyToMany(fetch = FetchType.EAGER)
+  private List<Servico> servicos = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
   private Veiculo veiculo;

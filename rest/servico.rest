@@ -1,6 +1,7 @@
 ### Cadastrar um novo serviço
-POST http://localhost:8080/servico/cadastro
+POST http://localhost:8080/servico/1/cadastro
 Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
 {
   "id": 1,

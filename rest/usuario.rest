@@ -8,8 +8,9 @@ Content-Type: application/json
 }
 
 
+
 ### Create client
-POST http://localhost:8080/usuario/cadastro
+POST http://localhost:8080/usuario/1/cadastro
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -48,12 +49,13 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Obter todos os clientes
-GET http://localhost:8080/usuario/listar
+GET http://localhost:8080/usuario/1/listar
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Get user
 GET http://localhost:8080/usuario/2
+Authorization: Bearer {{JWT}}
 
 ### Update user
 PUT http://localhost:8080/usuario/atualizar/1

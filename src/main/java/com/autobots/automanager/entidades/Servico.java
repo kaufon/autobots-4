@@ -14,11 +14,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Servico extends RepresentationModel<Servico> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

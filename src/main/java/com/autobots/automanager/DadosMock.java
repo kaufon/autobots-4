@@ -2,7 +2,7 @@ package com.autobots.automanager;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.autobots.automanager.entidades.Credencial;
 import com.autobots.automanager.entidades.Documento;
@@ -15,7 +15,6 @@ import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.enumeracoes.TipoDocumento;
 import com.autobots.automanager.providers.AutenticacaoProvedor;
 import com.autobots.automanager.repositorios.EmpresaRepository;
-import com.autobots.automanager.repositorios.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,8 +22,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DadosMock implements CommandLineRunner {
-  @Autowired
-  private UsuarioRepository usuarioRepositorio;
 
   @Autowired
   private EmpresaRepository empresaRepositorio;
@@ -70,11 +67,10 @@ public class DadosMock implements CommandLineRunner {
 
     usuario.setCredencial(credencial);
     usuario.setNome("Admin");
-    usuario.setEmpresa(empresa);
     usuario.setNomeSocial("Admin");
-    usuario.setEmails(Set.of(email));
-    usuario.setTelefones(Set.of(telefone));
-    usuario.setDocumentos(Set.of(documento));
+    usuario.setEmails(List.of(email));
+    usuario.setTelefones(List.of(telefone));
+    usuario.setDocumentos(List.of(documento));
     usuario.setEndereco(endereco);
     usuario.setPerfil(PerfilUsuario.ADMIN);
     usuario.setInativo(false);
@@ -103,8 +99,8 @@ public class DadosMock implements CommandLineRunner {
     empresa.setNomeFantasia("Toyota");
     empresa.setCadastro(LocalDate.of(2025, 1, 1));
     empresa.setEndereco(endereco);
-    empresa.setTelefones(Set.of(telefone));
-    empresa.setUsuarios(Set.of(admin));
+    empresa.setTelefones(List.of(telefone));
+    empresa.setUsuarios(List.of(admin));
 
     empresaRepositorio.save(empresa);
   }

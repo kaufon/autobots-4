@@ -1,6 +1,7 @@
 ### create
-POST http://localhost:8080/mercadoria/cadastro
+POST http://localhost:8080/mercadoria/1/cadastro
 Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
 {
   "id": 1,

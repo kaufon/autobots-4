@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.autobots.automanager.excecoes.AutenticacaoException;
-import com.autobots.automanager.excecoes.SemAutorizacaoException;
 
 @ControllerAdvice
 public class ExcecaoControlador {

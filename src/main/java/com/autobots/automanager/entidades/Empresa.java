@@ -1,8 +1,8 @@
 package com.autobots.automanager.entidades;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
@@ -24,12 +24,14 @@ import org.springframework.hateoas.RepresentationModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Empresa extends RepresentationModel<Empresa> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,7 @@ public class Empresa extends RepresentationModel<Empresa> {
   private String nomeFantasia;
 
   @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private Set<Telefone> telefones = new HashSet<>();
+  private List<Telefone> telefones = new ArrayList<>();
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   private Endereco endereco;
@@ -52,37 +54,37 @@ public class Empresa extends RepresentationModel<Empresa> {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate cadastro;
 
-  @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Set<Usuario> usuarios = new HashSet<>();
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private List<Usuario> usuarios = new ArrayList<>();
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Set<Mercadoria> mercadorias = new HashSet<>();
+  private List<Mercadoria> mercadorias = new ArrayList<>();
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Set<Servico> servicos = new HashSet<>();
+  private List<Servico> servicos = new ArrayList<>();
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Set<Veiculo> veiculos = new HashSet<>();
+  private List<Veiculo> veiculos = new ArrayList<>();
 
   @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonManagedReference
-  private Set<Venda> vendas = new HashSet<>();
+  private List<Venda> vendas = new ArrayList<>();
 
-  public Set<Venda> obterVendasPorCliente(Usuario cliente) {
+  public List<Venda> obterVendasPorCliente(Usuario cliente) {
     return vendas
         .stream()
         .filter(venda -> venda.getCliente().getId() == cliente.getId())
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
-  public Set<Venda> obterVendasPorVendedor(Usuario vendedor) {
+  public List<Venda> obterVendasPorVendedor(Usuario vendedor) {
     return vendas
         .stream()
         .filter(venda -> venda.getVendedor().getId() == vendedor.getId())
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
-  public Set<Usuario> obterUsuariosPorPerfil(PerfilUsuario perfil) {
+  public List<Usuario> obterUsuariosPorPerfil(PerfilUsuario perfil) {
     switch (perfil) {
       case ADMIN:
         return usuarios;
@@ -90,12 +92,12 @@ public class Empresa extends RepresentationModel<Empresa> {
         return usuarios
             .stream()
             .filter(usuario -> usuario.getPerfil() != PerfilUsuario.ADMIN)
-            .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
       case VENDEDOR:
         return usuarios
             .stream()
             .filter(usuario -> usuario.getPerfil() == PerfilUsuario.CLIENTE)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toList());
       default:
         return usuarios;
     }

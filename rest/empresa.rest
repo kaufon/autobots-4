@@ -31,6 +31,8 @@ Authorization: Bearer {{JWT}}
 
 ### Obter um documento específico
 GET http://localhost:8080/empresa/1
+Authorization: Bearer {{JWT}}
+Content-Type: application/json
 
 ### Atualizar um documento
 PUT http://localhost:8080/empresa/atualizar

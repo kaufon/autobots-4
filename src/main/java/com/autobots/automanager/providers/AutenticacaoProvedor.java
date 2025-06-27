@@ -1,5 +1,10 @@
 package com.autobots.automanager.providers;
 
+import com.autobots.automanager.entidades.Usuario;
+import com.autobots.automanager.enumeracoes.PerfilUsuario;
+import com.autobots.automanager.excecoes.AutenticacaoException;
+import com.autobots.automanager.seguranca.SegurancaUsuario;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,20 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.autobots.automanager.entidades.Empresa;
-import com.autobots.automanager.entidades.Usuario;
-import com.autobots.automanager.enumeracoes.PerfilUsuario;
-import com.autobots.automanager.excecoes.AutenticacaoException;
-import com.autobots.automanager.repositorios.EmpresaRepository;
-import com.autobots.automanager.seguranca.SegurancaUsuario;
-
 @Component
 public class AutenticacaoProvedor {
   @Autowired
   private AuthenticationManager authenticationManager;
 
-  @Autowired
-  private EmpresaRepository empresaRepository;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -59,11 +55,5 @@ public class AutenticacaoProvedor {
   public Long getUsuarioId() {
     var usuario = getUsuario();
     return usuario.getId();
-  }
-
-  public Empresa getEmpresa() {
-    var usuario = getUsuario();
-
-    return usuario.getEmpresa();
   }
 }

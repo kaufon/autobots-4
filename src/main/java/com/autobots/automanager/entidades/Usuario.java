@@ -1,8 +1,8 @@
 package com.autobots.automanager.entidades;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,7 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -61,33 +60,28 @@ public class Usuario extends RepresentationModel<Usuario> {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate ultimoAcesso = LocalDate.now();
 
-  @ManyToOne
-  @JoinColumn(name = "empresa_id")
-  @JsonIgnore
-  private Empresa empresa;
+  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  @JoinColumn(name = "cliente_id")
+  private List<Documento> documentos = new ArrayList<>();
 
   @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "cliente_id")
-  private Set<Documento> documentos = new HashSet<>();
-
-  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  @JoinColumn(name = "cliente_id")
-  private Set<Telefone> telefones = new HashSet<>();
+  private List<Telefone> telefones = new ArrayList<>();
 
   @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "cliente_id")
-  private Set<Email> emails = new HashSet<>();
+  private List<Email> emails = new ArrayList<>();
 
   @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Credencial credencial;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
   @JoinColumn(name = "cliente_id")
-  private Set<Veiculo> veiculos = new HashSet<>();
+  private List<Veiculo> veiculos = new ArrayList<>();
 
   @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
   @JoinColumn(name = "cliente_id")
   @JsonIgnore
-  private Set<Venda> vendas = new HashSet<>();
+  private List<Venda> vendas = new ArrayList<>();
 
 }

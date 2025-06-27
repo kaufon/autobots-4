@@ -1,14 +1,14 @@
 package com.autobots.automanager.servicos;
 
 import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.autobots.automanager.entidades.Venda;
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.providers.AutenticacaoProvedor;
+import com.autobots.automanager.repositorios.EmpresaRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ObterVendasServico {
@@ -16,9 +16,12 @@ public class ObterVendasServico {
   @Autowired
   private AutenticacaoProvedor autenticacaoProvedor;
 
-  public Set<Venda> obterVendas() {
+  @Autowired
+  private EmpresaRepository empresaRepositorio;
+
+  public List<Venda> obterVendas(Long epresaId) {
     var perfil = autenticacaoProvedor.getPerfil();
-    var empresa = autenticacaoProvedor.getEmpresa();
+    var empresa = empresaRepositorio.findById(epresaId).get();
     if (perfil == PerfilUsuario.CLIENTE) {
       var vendas = empresa.obterVendasPorCliente(autenticacaoProvedor.getUsuario());
       return vendas;
@@ -29,6 +32,6 @@ public class ObterVendasServico {
       return vendas;
     }
 
-    return autenticacaoProvedor.getEmpresa().getVendas();
+    return empresa.getVendas();
   }
 }

@@ -1,15 +1,14 @@
 package com.autobots.automanager.servicos;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.excecoes.SemAutorizacaoException;
 import com.autobots.automanager.providers.AutenticacaoProvedor;
 import com.autobots.automanager.repositorios.CredencialRepository;
-import com.autobots.automanager.repositorios.EmpresaRepository;
 import com.autobots.automanager.repositorios.UsuarioRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ExcluirUsuarioServico {

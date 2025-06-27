@@ -2,13 +2,9 @@ package com.autobots.automanager.servicos;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.stereotype.Service;
-
-import com.autobots.automanager.controles.UsuarioController;
 import com.autobots.automanager.entidades.Usuario;
+
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -31,22 +27,10 @@ public class AdicionarLinkUsuarioServico implements AdicionarLinkServico<Usuario
 
 	@Override
 	public void adicionarLink(Usuario cliente) {
-		Link linkProprio = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(UsuarioController.class)
-						.listarUsuarios())
-				.withRel("obter-todos");
-		Link linkExcluir = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(UsuarioController.class)
-						.deletarUsuario(null))
-				.withRel("excluir");
 		// adicionaLinkDocumentoServico.adicionarLink(cliente.getDocumentos());
 		// adicionaLinkTelefoneServico.adicionarLink(cliente.getTelefones());
 		// if (cliente.getEndereco() != null) {
 		// 	adicionaLinkEnderecoServico.adicionarLink(cliente.getEndereco());
 		// }
-		cliente.add(linkProprio);
-		cliente.add(linkExcluir);
 	}
 }

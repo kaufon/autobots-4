@@ -54,10 +54,10 @@ public class UsuarioController {
   @Autowired
   private ObterUsuariosServicos obterUsuariosServicos;
 
-  @GetMapping("/listar")
+  @GetMapping("{empresaID}/listar")
   @PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
-  public ResponseEntity<List<Usuario>> listarUsuarios() {
-    var usuarios = usuarioRepository.findAll();
+  public ResponseEntity<List<Usuario>> listarUsuarios(@PathVariable("empresaID") Long empresaID) {
+    var usuarios = obterUsuariosServicos.obterUsuarios(empresaID);
     adicionarLink.adicionarLink(new HashSet<>(usuarios));
     var listaUsuarios = new ArrayList<>(usuarios);
     return ResponseEntity.ok(listaUsuarios);
@@ -76,11 +76,10 @@ public class UsuarioController {
       (hasRole('GERENTE') and #usuario.perfil.name() != 'ADMIN') or
       (hasRole('VENDEDOR') and #usuario.perfil.name() == 'CLIENTE')
       """)
-  @PostMapping("/cadastro")
+  @PostMapping("{empresaID}/cadastro")
   @Transactional
-  public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-    var empresa = autenticacaoProvedor.getEmpresa();
-    usuario.setEmpresa(empresa);
+  public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario ,@PathVariable("empresaID") Long empresaID) {
+    var empresa = empresaRepository.findById(empresaID).get();
     autenticacaoProvedor.registrar(usuario);
     usuarioRepository.save(usuario);
     empresa.getUsuarios().add(usuario);
@@ -93,29 +92,42 @@ public class UsuarioController {
       (hasRole('GERENTE') and #usuarioAtualizacao.perfil.name() != 'ADMIN') or
       (hasRole('VENDEDOR') and #usuarioAtualizacao.perfil.name() == 'CLIENTE')
       """)
-  @PutMapping("/atualizar/{id}")
-  public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
+  @PutMapping("/{empresaID}/atualizar/{id}")
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long empresaID, @PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
     Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
     if (usuarioOptional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
+      var empresa = empresaRepository.findById(empresaID).get();
+  
     Usuario usuario = usuarioOptional.get();
     atualizaUsuarioServico.atualizar(usuario, usuarioAtualizado);
     Usuario usuarioSalvo = usuarioRepository.save(usuario);
+  
+      empresa.getUsuarios().remove(usuario);
+      empresa.getUsuarios().add(usuarioSalvo);
+      empresaRepository.save(empresa);
+  
     adicionarLink.adicionarLink(usuarioSalvo);
     return ResponseEntity.ok(usuarioSalvo);
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-  @DeleteMapping("/deletar/{id}")
-  public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
-    Optional<Usuario> usuario = usuarioRepository.findById(id);
-    if (usuario.isEmpty()) {
+  @DeleteMapping("/{empresaID}/deletar/{id}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable Long empresaID, @PathVariable Long id) {
+      Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+      if (usuarioOptional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    usuarioRepository.delete(usuario.get());
+      var empresa = empresaRepository.findById(empresaID).get();
+  
+      Usuario usuario = usuarioOptional.get();
+      usuarioRepository.delete(usuario);
+      empresa.getUsuarios().remove(usuario);
+      empresaRepository.save(empresa);
+  
     return ResponseEntity.noContent().build();
   }
 }
